@@ -488,7 +488,7 @@ impl<P: Protocol + Clone + Send + 'static> Server<P> {
                 let (tenant_id, network) = TLSAcceptor::new(c)?.accept(stream).await?;
                 Ok((network, tenant_id))
             }
-            None => Ok((Box::new(stream), None)),
+            None => Ok((Box::new(stream) as Box<dyn N>, None)),
         }
         #[cfg(not(any(feature = "use-rustls", feature = "use-native-tls")))]
         Ok((Box::new(stream), None))
